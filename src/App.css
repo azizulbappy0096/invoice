@@ -1,38 +1,87 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.invoice {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 75%;
+  background-color: #fff;
+  border: 1px solid #8080804d;
+  border-radius: 4px;
+  margin: 32px auto;
+  padding: 80px 44px;
 }
 
-.App-link {
-  color: #61dafb;
+.table-responsive {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.table {
+  margin: 0;
+  color: inherit;
+}
+
+.table thead,
+.table tfoot {
+  background-color: #f7f7f7;
+}
+
+.table > :not(:first-child) {
+  border-top: 0;
+}
+
+.table > :not(caption) > * > * {
+  padding: 1rem 1rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.invoice__btn {
+  border: 1px solid #dee2e6;
+  color: inherit;
+  text-decoration: none;
+  padding: 4px 8px;
+  font-size: 18px;
+  font-weight: 300;
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.invoice__btn:hover {
+  color: inherit;
+}
+
+.invoice__btn svg {
+  height: 18px;
+  opacity: 0.9;
+}
+
+.invoice__btn:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.invoice__btn:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+@media screen and (max-width: 768px) {
+  .invoice {
+    width: 100%;
+    margin: 0;
+    padding: 40px 22px;
+    border-radius: 0;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media print {
+  .invoice {
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 60px 44px;
+  }
+
+  .invoice__btn {
+    display: none;
   }
 }
