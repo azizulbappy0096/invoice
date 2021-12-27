@@ -1,6 +1,30 @@
-import { Table } from "react-bootstrap";
 import "./App.css";
-import html2pdf from "html2pdf.js";
+import { Table } from "react-bootstrap";
+import { useEffect, useState } from "react";
+
+let mockData = [
+  {
+    service: "Design",
+    description: "Creating a website design",
+    rate: 50.0,
+    qty: 10,
+    amount: 500,
+  },
+  {
+    service: "Development",
+    description: "Website Development",
+    rate: 120.0,
+    qty: 10,
+    amount: 1200.0,
+  },
+  {
+    service: "SEO",
+    description: "	Optimize the site for search engines (SEO)",
+    rate: 450.0,
+    qty: 1,
+    amount: 450,
+  },
+];
 
 function PrintIcon() {
   return (
@@ -20,37 +44,25 @@ function PrintIcon() {
   );
 }
 
-function DownloadIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-      />
-    </svg>
-  );
-}
-
 function App() {
+  const [subTotal, setSubTotal] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [total, setTotal] = useState(0);
 
-  const handleDownload = () => {
-    const pp = document.getElementById("invoice").innerHTML
-    html2pdf().from(pp).toPdf().save()
-  }
-  
+  useEffect(() => {
+    for (let i = 0; i < mockData.length; i++) {
+      setSubTotal((prev) => prev + mockData[i].amount);
+      setTax((prev) => prev + mockData[i].amount * 0.15);
+      setTotal((prev) => prev + mockData[i].amount * 0.15 + mockData[i].amount);
+    }
+  }, []);
+
   return (
     <div id="invoice" className="invoice">
       <div className="container">
         <div className="row text-center text-md-start">
           <div className="col-12 col-md-6">
-            <h3> KOICE </h3>
+            <h3> LOGO </h3>
           </div>
           <div className="col-12 col-md-6 text-md-end">
             <h3 className="text-capitalize"> Invoice </h3>
@@ -108,46 +120,35 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Design</td>
-                  <td>Creating a website design</td>
-                  <td className="text-center">$50.00</td>
-                  <td className="text-center">10</td>
-                  <td className="text-end">$500.00</td>
-                </tr>
-                <tr>
-                  <td>Design</td>
-                  <td>Creating a website design</td>
-                  <td className="text-center">$50.00</td>
-                  <td className="text-center">10</td>
-                  <td className="text-end">$500.00</td>
-                </tr>
-                <tr>
-                  <td>Design</td>
-                  <td>Creating a website design</td>
-                  <td className="text-center">$50.00</td>
-                  <td className="text-center">10</td>
-                  <td className="text-end">$500.00</td>
-                </tr>
+                {mockData.map((data, idx) => (
+                  <tr key={idx}>
+                    <td>{data.service}</td>
+                    <td style={{fontSize: 14}}>{data.description}</td>
+                    <td className="text-center">${data.rate.toFixed(2)}</td>
+                    <td className="text-center">{data.qty}</td>
+                    <td className="text-end">${data.amount.toFixed(2)}</td>
+                  </tr>
+                ))}
               </tbody>
               <tfoot>
                 <tr>
                   <td colSpan={4} className="fw-bold text-end">
                     Sub Total:
                   </td>
-                  <td className="text-end">$2150.00</td>
+
+                  <td className="text-end">${subTotal.toFixed(2)} </td>
                 </tr>
                 <tr>
                   <td colSpan={4} className="fw-bold text-end">
                     Tax:
                   </td>
-                  <td className="text-end">$2150.00</td>
+                  <td className="text-end">${tax.toFixed(2)}</td>
                 </tr>
                 <tr>
                   <td colSpan={4} className="fw-bold text-end">
                     Total:
                   </td>
-                  <td className="text-end">$2150.00</td>
+                  <td className="text-end">${total.toFixed(2)}</td>
                 </tr>
               </tfoot>
             </Table>
@@ -155,13 +156,14 @@ function App() {
         </div>
         <div className="row">
           <div className="col-12 mt-4 text-center">
+            <p className="text-muted">
+              {" "}
+              <span className="fw-bold">Note:</span> To download invoice as PDF, click on print and save as PDF
+              format.{" "}
+            </p>
             <a href="javascript:window.print()" className="invoice__btn">
               {" "}
               <PrintIcon /> Print{" "}
-            </a>
-            <a onClick={handleDownload} className="invoice__btn">
-              {" "}
-              <DownloadIcon /> Download{" "}
             </a>
           </div>
         </div>
